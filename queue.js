@@ -7,8 +7,6 @@ const { sessions } = require('./server');
 const prisma = new PrismaClient();
 
 // Connect to Redis strictly using environment variable
-console.log("DEBUG: REDIS_URL is", process.env.REDIS_URL ? "DEFINED" : "UNDEFINED");
-
 const redisUrl = process.env.REDIS_URL;
 if (!redisUrl) {
   throw new Error("REDIS_URL is missing from environment variables!");

@@ -1,3 +1,5 @@
+console.log("DEBUG: REDIS_URL is", process.env.REDIS_URL ? "DEFINED" : "UNDEFINED");
+
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -8,9 +10,8 @@ const path = require('path');
 const { default: makeWASocket, useMultiFileAuthState, fetchLatestBaileysVersion } = require('@whiskeysockets/baileys');
 const { PrismaClient } = require('@prisma/client');
 
-// Load environment variables (fallback to root if available for local dev)
-dotenv.config({ path: path.join(__dirname, '.env') });
-dotenv.config({ path: path.join(__dirname, '../.env') }); // Legacy generic fallback
+// Apply minimal dotenv config if running locally, without overriding production process.env
+dotenv.config();
 
 const prisma = new PrismaClient();
 
