@@ -232,6 +232,6 @@ async function resumeSessions() {
 
 resumeSessions();
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
     console.log(`[Burner] Multi-Tenant Worker securely bound and running on port ${PORT}`);
 });
