@@ -8,7 +8,8 @@ const prisma = new PrismaClient();
 
 // Connect to Redis strictly using environment variable
 const connection = new Redis(process.env.REDIS_URL, {
-    maxRetriesPerRequest: null
+    maxRetriesPerRequest: null,
+    tls: process.env.REDIS_URL?.startsWith('rediss://') ? { rejectUnauthorized: false } : undefined
 });
 
 connection.on('error', (err) => {
