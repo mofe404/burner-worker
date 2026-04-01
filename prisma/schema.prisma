@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id          String   @id @default(uuid())
+  phoneNumber String   @unique
+  sessionData Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  groups      Group[]
+}
+
+model Group {
+  id               String    @id @default(uuid())
+  slug             String    @unique
+  whatsappGroupJid String
+  adminId          String
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  lastInteraction  DateTime?
+  name             String?
+  imageUrl         String?
+  sessionId        String?
+  admin            Admin     @relation(fields: [adminId], references: [id])
+  messages         Message[]
+}
+
+model Message {
+  id        String        @id @default(uuid())
+  content   String
+  status    MessageStatus @default(PENDING)
+  groupId   String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  group     Group         @relation(fields: [groupId], references: [id])
+}
+
+enum MessageStatus {
+  PENDING
+  SENT
+  FAILED
+}
